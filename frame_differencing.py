@@ -12,7 +12,7 @@ cap = cv2.VideoCapture(0) #0 means first webcam
 frames = []
 counter = 0
 
-threshold = 1.5
+threshold = 1
 
 while(True):
     ret, frame = cap.read()
@@ -22,12 +22,13 @@ while(True):
     cv2.putText(frame,text,(5,30), font, 1, color, 3, cv2.LINE_AA) #may need to change some arguments 
 
     cv2.imshow('frame',frame)
-    #cv2.imshow('gray',gray)
+    
     
     if counter > 0:
-        difference = cv2.subtract(cv2.medianBlur(frames[counter],15),cv2.medianBlur(frames[counter-1],15))
+        difference = cv2.subtract(cv2.medianBlur(frames[counter],15),cv2.medianBlur(frames[counter-1],15)) #applies median blur before subtracting for noise reduction 
+        #cv2.imshow('difference',difference)
         mean = np.mean(difference)
-        print(mean)
+        #print(mean)
         if mean > threshold:
             text = "Motion Detected"
         else:
